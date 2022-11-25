@@ -1,0 +1,25 @@
+Hur delar vi upp projektet?
+
+	Vi har två differentialekvationer av andra graden. Vi behöver lösa ut
+	dessa för att erhålla positionen som en funktion av tiden.
+	Vi vill därför undersöka dessa.
+
+	Därefter vill vi lösa dessa och således erhålla position som en funktion av tiden.
+	Därefter kan vi applicera begynnelsevilkor och enkelt erhålla träffpunkten.
+
+	Vi vill definiera en koordinataxel för systemet att förhålla sig till.
+
+	Vi vill ta översätta uppgifterna till ekvationer.
+
+Vilka numeriska metoder vill vi använda?
+
+	Först och främst vill vi använda en numerisk metod för att lösa differentialekvationerna. 
+    T.ex. egengjord ode45, mha euler kanske. 
+
+    Vi  vill sedan ta reda på t-värdet i punkten då x=2.37m
+
+    Vi kan interpolera map närliggande värden till x=2.37m
+
+
+
+	
