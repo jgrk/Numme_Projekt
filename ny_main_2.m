@@ -9,7 +9,7 @@ d=2.37;
 m=0.026;
 V0=13;
 h=1.85;
-grad=4.09;
+grad=5;
 g=9.82;
 Kx=0.001;
 Ky=0.01;
@@ -55,7 +55,7 @@ for iter = 1:maxiter
     
     end
     
-    t=0:dt:.2+dt;
+    t=0:dt:.2;
     
     %Binärsök
     if d < x(1)
@@ -133,13 +133,12 @@ disp("träffpunkt från marken: " + svar )
 %b)
 
 clear; close all; clc;
-
 theta = 0:90;
 plot(theta, arrayfun(@f, theta))
 
 %sekantmetoden
 
-gr1 = 5; gr2 = 6; trunc = 1;
+gr1 = 81; gr2 = 82; trunc = 1;
 
 while abs(trunc) > 10^-3
 
@@ -147,6 +146,7 @@ while abs(trunc) > 10^-3
     r = gr1 - trunc;
     gr2 = gr1;
     gr1 = r;
+    disp(r)
     
 
 end
@@ -175,7 +175,7 @@ v(1)=V0*sin((grad/360)*2*pi);
 x(1)=0; 
 y(1)=h; 
 
-for t=0:dt:.2
+for t=0:dt:1.5
     
     x(end+1)=x(end)+u(end)*dt;
     y(end+1)=y(end)+v(end)*dt;
@@ -194,15 +194,15 @@ for t=0:dt:.2
 
 end
 
-t=0:dt:.2+dt;
+t=0:dt:1+dt;
 
 %Binärsök
 if d < x(1)
-    idx=1;
+    mid=1;
 end
 
 if d > x(end)
-    idx=length(x);
+    mid=length(x);
 end
 
 hi = length(x);
