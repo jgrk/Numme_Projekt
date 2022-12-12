@@ -3,6 +3,7 @@
 
 clear; close all; clc;
 
+
 %Givna konstanter och funktioner
 be=1.83;
 d=2.37;
@@ -15,6 +16,8 @@ Kx=0.001;
 Ky=0.01;
 dt=0.01;
 tol=10^-5;
+
+
 
 udot=@(u,v)(-(Kx/m)*u*sqrt(u^2+v^2));
 vdot=@(u,v)(-g-(Ky/m)*v*sqrt(u^2+v^2));
@@ -57,7 +60,11 @@ for iter = 1:maxiter
     %tidsintervall
     a=0;
     b=( length(x) - 1 ) * dt;
+    
     t=a:dt:b;
+
+
+
     
     %Binärsök
 %     if d < x(1)
@@ -85,7 +92,6 @@ for iter = 1:maxiter
 %     
     
     %interpolation
-    %Andragrads- och tredjegradspolynom
     
     t_p = [t(end-3) t(end-2) t(end-1) t(end)]';
     t_mat = [t_p.^0 t_p.^1 t_p.^2 t_p.^3];
@@ -108,29 +114,33 @@ for iter = 1:maxiter
     
     %newton-raphson
     
-    %tredjegradsinterpolation
     t0 = .2;    trunc = 1;
     
     while abs( trunc ) > tol
+        
         trunc = ( x_func( t0 ) - 2.37 ) / xp_func( t0 );
         t1 = t0 - trunc;
         t0 = t1;
-    end 
-
-    %andragradsinterpolation
-    t2 = .2;    trunc = 1;
-    
-    while abs( trunc ) > tol
-        trunc = ( x_func2( t2 ) - 2.37 ) / xp_func2( t2 );
-        t3 = t2 - trunc;
-        t2 = t3;
+        
     end
 
     
+    
     trff_pnkt(end+1) = y_func(t1);
     
-    %Kollar s.a. båda interpolationer konvergerar mot samma värde
-    disp(y_func(t1) - y_func2(t3))
+    t0 = .2;    trunc = 1;
+    
+    while abs( trunc ) > tol
+        
+        trunc = ( x_func2( t0 ) - 2.37 ) / xp_func2( t0 );
+        t1 = t0 - trunc;
+        t0 = t1;
+        
+    end
+
+
+
+    disp(y_func(t1) - y_func2(t2))
 
     if abs( trff_pnkt(end) - trff_pnkt(end-1) ) < tol
         

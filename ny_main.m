@@ -175,7 +175,7 @@ v(1)=V0*sin((grad/360)*2*pi);
 x(1)=0;
 y(1)=0;
 
-for t=0:h:0.2
+for t=0:h:1.5
 
     k1=h*u(end);
     l1=h*v(end);

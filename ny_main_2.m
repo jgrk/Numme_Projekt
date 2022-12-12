@@ -134,12 +134,12 @@ disp("träffpunkt från marken: " + svar )
 
 clear; close all; clc;
 
-theta = 0:90;
-plot(theta, arrayfun(@f, theta))
+% theta = 0:90;
+% plot(theta, arrayfun(@f, theta))
 
 %sekantmetoden
 
-gr1 = 5; gr2 = 6; trunc = 1;
+gr1 = 80; gr2 = 83; trunc = 1;
 
 while abs(trunc) > 10^-3
 
@@ -169,13 +169,13 @@ be=1.83;
 udot=@(u,v)(-(Kx/m)*u*sqrt(u^2+v^2));
 vdot=@(u,v)(-g-(Ky/m)*v*sqrt(u^2+v^2));
 
-dt = 6.103515625000000e-06;
+dt = 0.01;
 u(1)=V0*cos((grad/360)*2*pi);
 v(1)=V0*sin((grad/360)*2*pi);
 x(1)=0; 
 y(1)=h; 
 
-for t=0:dt:.2
+for t=0:dt:1.5
     
     x(end+1)=x(end)+u(end)*dt;
     y(end+1)=y(end)+v(end)*dt;
@@ -194,15 +194,14 @@ for t=0:dt:.2
 
 end
 
-t=0:dt:.2+dt;
 
 %Binärsök
 if d < x(1)
-    idx=1;
+    mid = 1;
 end
 
 if d > x(end)
-    idx=length(x);
+    mid = length(x);
 end
 
 hi = length(x);
