@@ -1,21 +1,15 @@
 %c)
 
 clear; close all; clc;
-
+theta = 0:90;
 %plot(theta, arrayfun(@f, theta))
 
 %sekantmetoden
 
-
-
-
-
-
-    
 V01 = 5; V02 = 15; trunc = 1;
 
-while abs(trunc) > 10^-4
-    
+while abs(trunc) > 10^-3
+
     trunc = f(V01) * (V01 - V02) / (f(V01) - f(V02));
     r = V01 - trunc;
     V02 = V01;
@@ -30,7 +24,7 @@ function trff=f(V0)
 %Givna konstanter och funktioner
 
 d=2.37;
-m=0.026;
+m=0.050;
 grad=2;
 h=1.85;
 g=9.82;
@@ -47,7 +41,7 @@ v(1)=V0*sin((grad/360)*2*pi);
 x(1)=0; 
 y(1)=h; 
 
-for t=0:dt:1.5
+while x(end) < d
     
     x(end+1)=x(end)+u(end)*dt;
     y(end+1)=y(end)+v(end)*dt;

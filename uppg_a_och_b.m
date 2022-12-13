@@ -130,10 +130,12 @@ for iter = 1:maxiter
     trff_pnkt(end+1) = y_func(t1);
     
     %Kollar s.a. båda interpolationer konvergerar mot samma värde
-    disp(y_func(t1) - y_func2(t3))
+    disp( abs( y_func(t1) - y_func2(t3) ) )
+    
 
     if abs( trff_pnkt(end) - trff_pnkt(end-1) ) < tol
         
+        disp( abs( trff_pnkt(end)-trff_pnkt(end-1) ) )
         svar = trff_pnkt(end);
         break
     end
@@ -147,6 +149,10 @@ end
 hold on
 plot(t,x,t,y)
 plot(t,arrayfun(x_func,t),t,arrayfun(y_func,t))
+legend({"x(t) - rk4/euler", "y(t) - rk4/euler","x(t) - interp.","y(t) - interp."}, "Location", "southwest")
+title("Plot av x och y som en funktion av tid")
+xlabel("Tid [s]")
+ylabel("Sträcka [m]")
 
 
 disp("träffpunkt från marken: " + svar )
@@ -163,21 +169,23 @@ theta = 0:90;
 %sekantmetoden
 
 gr1 = 81; gr2 = 82; trunc = 1;
-
-while abs(trunc) > 10^-3
-
+i=1;
+while abs(trunc) > 10^-6
+    
     trunc = f(gr1) * (gr1 - gr2) / (f(gr1) - f(gr2));
     r = gr1 - trunc;
     gr2 = gr1;
     gr1 = r;
-    disp(r)
-    
+    disp([i r])
+    i=i+1;
 
 end
 
 
 
 function trff=f(grad)
+
+%Funktion som räknar ut träffpunkt som en funktion av grad
 
 %Givna konstanter och funktioner
 
@@ -199,7 +207,7 @@ v(1)=V0*sin((grad/360)*2*pi);
 x(1)=0; 
 y(1)=h; 
 
-for t=0:dt:1.5
+while x(end) < d
     
     x(end+1)=x(end)+u(end)*dt;
     y(end+1)=y(end)+v(end)*dt;
