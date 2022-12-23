@@ -40,38 +40,47 @@ end
 
 
 function trff = f(V0, konst)
-d2x=@(dx,dy) (- ( konst.Kx / konst.m )* dx* sqrt( dx^2 + dy^2 ) );
-d2y=@(dx,dy) (- konst.g-( konst.Ky / konst.m )* dy* sqrt( dx^2 + dy^2 ) );
 
+du=@(u) [u(2); 
+    (- ( konst.Kx / konst.m )* u(2)* sqrt( u(2)^2 + u(4)^2 ) ); 
+    u(4); 
+    (- konst.g-( konst.Ky / konst.m )* u(4)* sqrt( u(2)^2 + u(4)^2 ) )];
 
 
 
 dt= 10^-5;
 
-clear x y dx dy t
+clear x y t u
 
 t(1) = 0;
-x(1) = 0;
-y(1) = konst.h;
-dx(1) = V0* cos ( konst.phi* 2* pi / 360 );
-dy(1) = V0* sin ( konst.phi* 2* pi / 360 );
+x0 = 0;
+y0 = konst.h;
+dx0 = V0* cos ( konst.phi* 2* pi / 360 );
+dy0 = V0* sin ( konst.phi* 2* pi / 360 );
+u(:,1)= [x0; dx0; y0; dy0 ];
 
 
-while x(end) < konst.d
+
+while u(1,end) < konst.d
     
     t(end+1) = t(end) + dt;
-    x(end+1) = x(end) + dx(end)*dt;
-    y(end+1) = y(end) + dy(end)*dt;    
-    [dx(end+1),dy(end+1)] = rk4(d2x,d2y,dx(end),dy(end),dt);
+    k1 = du( u(:,end) );
+    k2 = du( u(:,end) + dt*.5*k1 );
+    k3 = du( u(:,end) + dt*.5*k2 );
+    k4 = du( u(:,end) + dt*k3 );
+    u(:,end+1) = u(:,end) + dt*( k1 + 2*k2 + 2*k3 + k4 )/6;
+
 
 end
 
 %dt2: steglängd som krävs för att x(end) = 2.37
 
-dt2 = ( konst.d - x(end-1) ) / dx(end-1);
-y(end) = y(end-1) + dy(end-1) * dt2;
+dt2 = ( konst.d - u(1,end-1) ) / u(2,end-1);
+t(end) = t(end-1) + dt2;
+u(:,end) = u(:,end-1) + du( u(:,end-1) )*dt2;
 
-trff = y(end) - konst.bulsy;
+
+trff = u(3,end) - konst.bulsy;
    
 
 end

@@ -13,10 +13,7 @@ konst.phi = 5;
 konst.d = 2.37;
 konst.tol = 10^-5;
 
-du=@(u) [u(2); 
-    (- ( konst.Kx / konst.m )* u(2)* sqrt( u(2)^2 + u(4)^2 ) ); 
-    u(4); 
-    (- konst.g-( konst.Ky / konst.m )* u(4)* sqrt( u(2)^2 + u(4)^2 ) )];
+du=@(u) [u(2); (- ( konst.Kx / konst.m )* u(2)* sqrt( u(2)^2 + u(4)^2 ) ); u(4); (- konst.g-( konst.Ky / konst.m )* u(4)* sqrt( u(2)^2 + u(4)^2 ) )];
 
 maxiter = 50;
 dt=0.1;
@@ -31,8 +28,8 @@ for iter = 1:maxiter
     x0 = 0;
     y0 = konst.h;
     dx0 = konst.V0* cos ( konst.phi* 2* pi / 360 );
-    dy0 = konst.V0* sin ( konst.phi* 2* pi / 360 );
-    u(:,1)= [x0; dx0; y0; dy0 ];
+    dy(1) = konst.V0* sin ( konst.phi* 2* pi / 360 );
+    u(:,1)= [x(1); dx(1); y(1); dy(1) ];
 
 
     while u(1,end) < konst.d
